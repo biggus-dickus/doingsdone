@@ -16,22 +16,27 @@ $date_deadline = null;
 $days_until_deadline = null;
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Дела в Порядке!</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
+
+    <link rel="shortcut icon" href="img/favicons/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="img/favicons/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicons/favicon-16x16.png">
 </head>
 
 <body><!--class="overlay"-->
 <h1 class="visually-hidden">Дела в порядке</h1>
-
 <div class="page-wrapper">
     <div class="container container--with-sidebar">
         <header class="main-header">
-            <a href="#">
+            <a>
                 <img src="img/logo.png" width="153" height="42" alt="Логитип Дела в порядке">
             </a>
 
@@ -122,7 +127,7 @@ $days_until_deadline = null;
 
                     <label class="checkbox">
                         <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
-                        <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox">
+                        <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox" <?php if ($show_complete_tasks) : ?>checked<?php endif; ?> >
                         <span class="checkbox__text">Показывать выполненные</span>
                     </label>
                 </div>
@@ -130,6 +135,7 @@ $days_until_deadline = null;
                 <table class="tasks">
 
                     <!--показывать следующий тег <tr/>, если переменная равна единице-->
+                    <?php if ($show_complete_tasks) : ?>
                     <tr class="tasks__item task task--completed">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
@@ -142,6 +148,7 @@ $days_until_deadline = null;
                         <td class="task__controls">
                         </td>
                     </tr>
+                    <?php endif; ?>
 
                     <tr class="tasks__item task">
                         <td class="task__select">
@@ -180,8 +187,7 @@ $days_until_deadline = null;
 <footer class="main-footer">
     <div class="container">
         <div class="main-footer__copyright">
-            <p>© 2017, «Дела в порядке»</p>
-
+            <p>© <?php print(date('Y')); ?>, «Дела в порядке»</p>
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
@@ -209,7 +215,7 @@ $days_until_deadline = null;
         <div class="main-footer__developed-by">
             <span class="visually-hidden">Разработано:</span>
 
-            <a href="https://htmlacademy.ru/intensive/php">
+            <a href="https://htmlacademy.ru/intensive/php" target="_blank">
                 <img src="img/htmlacademy.svg" alt="HTML Academy" width="118" height="40">
             </a>
         </div>
@@ -221,7 +227,7 @@ $days_until_deadline = null;
 
     <h2 class="modal__heading">Добавление задачи</h2>
 
-    <form class="form" class="" action="index.html" method="post">
+    <form class="form" action="index.html" method="post">
         <div class="form__row">
             <label class="form__label" for="name">Название <sup>*</sup></label>
 
