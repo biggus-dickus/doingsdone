@@ -42,6 +42,24 @@ $tasks = [
         'isDone' => 'Нет'
     ]
 ];
+
+/**
+ * Calculate the total number of tasks in the project.
+ * @param {Array} $tasksArr
+ * @param {string} $cat
+ * @return int
+ */
+function getTasksAmount($tasksArr, $cat) {
+    $total = 0;
+
+    foreach ($tasksArr as $i => $task) {
+        if ($task['category'] === $cat || $cat === 'Все') {
+            $total++;
+        }
+    }
+
+    return $total;
+}
 ?>
 
 <!DOCTYPE html>
@@ -87,7 +105,7 @@ $tasks = [
         </header>
 
         <div class="content">
-            <section class="content__side">
+            <aside class="content__side">
                 <h2 class="content__side-heading">Проекты</h2>
 
                 <nav class="main-navigation">
@@ -96,14 +114,16 @@ $tasks = [
                             <li class="main-navigation__list-item
                                       <?php if($i === 0): ?>main-navigation__list-item--active<?php endif; ?>">
                                 <a href="#" class="main-navigation__list-item-link"><?=$project?></a>
-                                <span class="main-navigation__list-item-count"><?=(strlen($project))?></span>
+                                <span class="main-navigation__list-item-count">
+                                    <?= getTasksAmount($tasks, $project) ?>
+                                </span>
                             </li>
                         <?php endforeach; ?>
                     </ul>
                 </nav>
 
                 <a class="button button--transparent button--plus content__side-button" href="#">Добавить проект</a>
-            </section>
+            </aside>
 
             <main class="content__main">
                 <h2 class="content__main-heading">Список задач</h2>
