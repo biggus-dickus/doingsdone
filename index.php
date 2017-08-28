@@ -1,4 +1,9 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+const SECONDS_IN_DAY = 86400;
+
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
@@ -10,18 +15,19 @@ $task_deadline_ts = strtotime("+" . $days . " day midnight"); // метка вр
 $current_ts = strtotime('now midnight'); // текущая метка времени
 
 // запишите сюда дату выполнения задачи в формате дд.мм.гггг
-$date_deadline = null;
+$date_deadline = date('d. m. Y', $task_deadline_ts);
 
 // в эту переменную запишите кол-во дней до даты задачи
-$days_until_deadline = null;
+$days_until_deadline = floor(($task_deadline_ts - $current_ts) / SECONDS_IN_DAY);
 ?>
+
 <!DOCTYPE html>
 <html lang="ru">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Дела в Порядке!</title>
+    <title>Дела в порядке!</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
 
@@ -150,7 +156,7 @@ $days_until_deadline = null;
                     </tr>
                     <?php endif; ?>
 
-                    <tr class="tasks__item task">
+                    <tr class="tasks__item task <?php if ($days_until_deadline <= 0) : ?>task--important <?php endif; ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden" type="checkbox">
@@ -159,7 +165,7 @@ $days_until_deadline = null;
                         </td>
 
                         <td class="task__date">
-                            <!--выведите здесь дату выполнения задачи-->
+                            <?php print($date_deadline); ?>
                         </td>
 
                         <td class="task__controls">
