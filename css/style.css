@@ -296,9 +296,12 @@ a:focus {
   text-transform: uppercase;
 }
 
+.main-navigation__list-item:hover,
 .main-navigation__list-item--active {
   color: #31313a;
+}
 
+.main-navigation__list-item--active {
   background-color: #f0f1f5;
   border-left: 2px solid #6e45e2;
 }

@@ -48,8 +48,12 @@
                     <ul class="main-navigation__list">
                         <?php foreach ($data['projects'] as $i => $project): ?>
                             <li class="main-navigation__list-item
-                                      <?php if($i === 0): ?>main-navigation__list-item--active<?php endif; ?>">
-                                <a href="#" class="main-navigation__list-item-link"><?=$project?></a>
+                                      <?php if( (int) $_GET['project_id'] === $i ): ?>
+                                        main-navigation__list-item--active
+                                      <?php endif; ?>">
+                                <a href="?project_id=<?=$i?>&project_name=<?=$project?>" class="main-navigation__list-item-link">
+                                    <?=$project?>
+                                </a>
                                 <span class="main-navigation__list-item-count">
                                     <?= getTasksAmount($data['tasks'], $project) ?>
                                 </span>
@@ -62,7 +66,14 @@
             </aside>
 
             <main class="content__main">
-               <?= $data['mainContent'] ?>
+                <?php
+                if (isset($_GET['project_id']) && !array_key_exists($_GET['project_id'], $data['projects'])) {
+                    http_response_code(404);
+                    print('Проекта с идентификатором <b>' . $_GET['project_id'] . '</b> не существует.');
+                } else {
+                    print($data['mainContent']);
+                }
+                ?>
             </main>
         </div>
     </div>
