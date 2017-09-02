@@ -36,11 +36,11 @@
 </div>
 
 <table class="tasks">
-    <?php foreach ($data as $task): ?>
+    <?php foreach ($data[1] as $task): ?>
         <?php if (
-                isset($_GET['project_name']) && $_GET['project_name'] === $task['category']
-                || !isset($_GET['project_name'])
-                || $_GET['project_name'] === 'Все'): ?>
+                isset($_GET['project_id']) && $data[0][$_GET['project_id']] === $task['category']
+                || !isset($_GET['project_id'])
+                || (int) $_GET['project_id'] === 0): ?>
             <tr class="tasks__item <?php if($task['isDone']): ?>task--completed<?php endif; ?>">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">

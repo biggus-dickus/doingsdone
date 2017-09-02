@@ -48,10 +48,10 @@
                     <ul class="main-navigation__list">
                         <?php foreach ($data['projects'] as $i => $project): ?>
                             <li class="main-navigation__list-item
-                                      <?php if( (int) $_GET['project_id'] === $i ): ?>
+                                      <?php if( isset($_GET['project_id']) && (int) $_GET['project_id'] === $i ): ?>
                                         main-navigation__list-item--active
                                       <?php endif; ?>">
-                                <a href="?project_id=<?=$i?>&project_name=<?=$project?>" class="main-navigation__list-item-link">
+                                <a href="?project_id=<?=$i?>" class="main-navigation__list-item-link">
                                     <?=$project?>
                                 </a>
                                 <span class="main-navigation__list-item-count">
