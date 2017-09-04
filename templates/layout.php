@@ -25,7 +25,7 @@
             </a>
 
             <div class="main-header__side">
-                <a class="main-header__side-item button button--plus" href="?add_task=true">
+                <a class="main-header__side-item button button--plus" href="?add_task=1">
                     Добавить задачу
                 </a>
 
@@ -90,7 +90,7 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
-        <a class="main-footer__button button button--plus" href="?add_task=true">
+        <a class="main-footer__button button button--plus" href="?add_task=1">
             Добавить задачу
         </a>
 
@@ -123,7 +123,10 @@
     </div>
 </footer>
 
-<?= renderTemplate('templates/modal.php', [$data['projects'], $data['tasks']]); ?>
+<?php if(isset($_GET['add_task'])) {
+    require_once 'templates/modal.php';
+}
+?>
 
 <script src="js/script.js"></script>
 </body>

@@ -47,12 +47,57 @@ $tasks = [
 
 $mainContent = renderTemplate('templates/index.php', [$projects, $tasks]);
 
+// Validation
+$errors = [];
+$required = ['task-name', 'task-project', 'task-deadline'];
+$rules = ['email' => 'validateEmail'];
+
+function validateEmail($value) {
+    return filter_var($value, FILTER_VALIDATE_EMAIL);
+}
+
+function parseData($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    foreach ($_POST as $key => $value) {
+        if (in_array($key, $required) && $value === '') {
+            $errors[] = $key;
+//            $userData[$key] = $value;
+//            break;
+        }
+
+//        if (in_array($key, $rules)) {
+//            $result = call_user_func('validateEmail', $value);
+//
+//            if (!$result) {
+//                $errors[] = $key;
+//            }
+//        }
+    }
+
+    if (count($errors)) {
+        $_GET['add_task'] = 1;
+    }
+    else {
+        $_POST = array();
+        header('Location: index.php?success=true');
+    }
+}
+
 $templateData = [
     'indexTitle' => 'Дела в порядке',
     'username' => 'Константин',
     'mainContent' => $mainContent,
     'projects' => $projects,
-    'tasks' => $tasks
+    'tasks' => $tasks,
+    'errors' => $errors
 ];
+
+echo(var_dump($_POST));
 
 print renderTemplate('templates/layout.php', $templateData);

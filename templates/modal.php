@@ -4,78 +4,29 @@ function parseDataArr($item) {
 }
 
 // Ну не вижу я смысла давать юзеру возможность выбирать категорию "Все"...
-$projects = array_filter($data[0], 'parseDataArr');
+$projects = array_filter($data['projects'], 'parseDataArr');
 
-// Validation
-function validateEmail($value) {
-    return filter_var($value, FILTER_VALIDATE_EMAIL);
-}
-
-function parseData($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-$errors = [];
-$required = ['task-name', 'task-project', 'task-deadline'];
-$rules = ['email' => 'validateEmail'];
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    foreach ($_POST as $key => $value) {
-        if (in_array($key, $required) && $value === '') {
-            $errors[] = $key;
-//            $userData[$key] = $value;
-//            break;
-        }
-
-//        if (in_array($key, $rules)) {
-//            $result = call_user_func('validateEmail', $value);
-//
-//            if (!$result) {
-//                $errors[] = $key;
-//            }
-//        }
-    }
-}
-
-if (isset($_POST)) {
-    $userData = array_slice($_POST, 0);
-}
-
-//if (count($errors)) {
-//    header('Location: ?add_task=true');
-//}
-
-$taskName = $userData['task-name'] ?? '';
-$taskDeadline = $userData['task-deadline'] ?? '';
-
-//if (!count($errors)) {
-//    header('Location: index.php?success=true');
-//}
+// Required fields
+$taskName = $_POST['task-name'] ?? '';
+$taskDeadline = $_POST['task-deadline'] ?? '';
+$taskProject = $_POST['task-project'] ?? '';
 ?>
 
-<pre>
-        <?php if(isset($_POST)) {
-            print(var_dump($_POST));
-            print(var_dump($errors));
-            print(var_dump($userData));
-        }?>
-    </pre>
-
-<div class="modal" <?php if(!isset($_GET['add_task'])):?>hidden<?php endif; ?>>
+<div class="modal">
     <a href="?" class="modal__close" title="Закрыть">Закрыть</a>
 
-    <h2 class="modal__heading">Добавление задачи</h2>
+    <?=var_dump($data['errors'])?>
 
-    <mark><?=var_dump($userData)?></mark>
+    <h2 class="modal__heading">Добавление задачи</h2>
 
     <form class="form" action="index.php" method="post" enctype="multipart/form-data">
         <div class="form__row">
             <label class="form__label" for="name">Название <sup>*</sup></label>
 
-            <input class="form__input"
+            <input class="form__input
+                    <?php if(in_array('task-name', $data['errors'])):?>
+                        form__input--error
+                    <?php endif; ?>"
                    type="text"
                    name="task-name"
                    id="name"
@@ -87,21 +38,21 @@ $taskDeadline = $userData['task-deadline'] ?? '';
             <label class="form__label" for="project">Проект <sup>*</sup></label>
 
             <select class="form__input form__input--select" name="task-project" id="project">
-                <option value="" disabled <?php if(!isset($_POST['task-project'])): ?>selected<?php endif ?>>
-                    Выберите проект
-                </option>
                 <?php foreach($projects as $project):?>
-                    <option <?php if(isset($_POST['task-project'])): ?>selected<?php endif ?>>
+                    <option <?php if($taskProject === $project): ?>selected<?php endif; ?>>
                         <?=$project?>
                     </option>
-                <?php endforeach ?>
+                <?php endforeach; ?>
             </select>
         </div>
 
         <div class="form__row">
             <label class="form__label" for="date">Дата выполнения <sup>*</sup></label>
 
-            <input class="form__input form__input--date"
+            <input class="form__input form__input--date
+                    <?php if(in_array('task-deadline', $data['errors'])):?>
+                        form__input--error
+                    <?php endif; ?>"
                    type="text"
                    name="task-deadline"
                    id="date"
