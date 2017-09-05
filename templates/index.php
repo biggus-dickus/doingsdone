@@ -38,7 +38,7 @@
 <table class="tasks">
     <?php foreach ($data[1] as $task): ?>
         <?php if (
-                isset($_GET['project_id']) && $data[0][$_GET['project_id']] === $task['category']
+                isset($_GET['project_id']) && $data[0][$_GET['project_id']] === $task['project']
                 || !isset($_GET['project_id'])
                 || (int) $_GET['project_id'] === 0): ?>
             <tr class="tasks__item <?php if($task['isDone']): ?>task--completed<?php endif; ?>">

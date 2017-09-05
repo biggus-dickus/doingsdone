@@ -7,15 +7,17 @@ function parseDataArr($item) {
 $projects = array_filter($data['projects'], 'parseDataArr');
 
 // Required fields
-$taskName = $_POST['task-name'] ?? '';
-$taskDeadline = $_POST['task-deadline'] ?? '';
-$taskProject = $_POST['task-project'] ?? '';
+$taskName = $_POST['taskName'] ?? '';
+$taskDeadline = $_POST['deadline'] ?? '';
+$taskProject = $_POST['project'] ?? '';
+
+// Error messages
+$errorTaskName = $data['errors']['taskName'] ?? '';
+$errorTaskDeadline = $data['errors']['deadline'] ?? '';
 ?>
 
 <div class="modal">
     <a href="?" class="modal__close" title="Закрыть">Закрыть</a>
-
-    <?=var_dump($data['errors'])?>
 
     <h2 class="modal__heading">Добавление задачи</h2>
 
@@ -23,21 +25,20 @@ $taskProject = $_POST['task-project'] ?? '';
         <div class="form__row">
             <label class="form__label" for="name">Название <sup>*</sup></label>
 
-            <input class="form__input
-                    <?php if(in_array('task-name', $data['errors'])):?>
-                        form__input--error
-                    <?php endif; ?>"
+            <input class="form__input <?php if($errorTaskName):?>form__input--error<?php endif; ?>"
                    type="text"
-                   name="task-name"
+                   name="taskName"
                    id="name"
                    placeholder="Введите название"
                    value="<?=$taskName?>">
+
+            <span class='error-message'><?=$errorTaskName?></span>
         </div>
 
         <div class="form__row">
             <label class="form__label" for="project">Проект <sup>*</sup></label>
 
-            <select class="form__input form__input--select" name="task-project" id="project">
+            <select class="form__input form__input--select" name="project" id="project">
                 <?php foreach($projects as $project):?>
                     <option <?php if($taskProject === $project): ?>selected<?php endif; ?>>
                         <?=$project?>
@@ -49,15 +50,14 @@ $taskProject = $_POST['task-project'] ?? '';
         <div class="form__row">
             <label class="form__label" for="date">Дата выполнения <sup>*</sup></label>
 
-            <input class="form__input form__input--date
-                    <?php if(in_array('task-deadline', $data['errors'])):?>
-                        form__input--error
-                    <?php endif; ?>"
+            <input class="form__input form__input--date <?php if($errorTaskDeadline):?>form__input--error<?php endif; ?>"
                    type="text"
-                   name="task-deadline"
+                   name="deadline"
                    id="date"
                    placeholder="ДД.ММ.ГГГГ"
                    value="<?=$taskDeadline?>">
+
+            <span class='error-message'><?=$errorTaskDeadline?></span>
         </div>
 
         <div class="form__row">

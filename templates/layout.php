@@ -46,7 +46,6 @@
         <div class="content">
             <aside class="content__side">
                 <h2 class="content__side-heading">Проекты</h2>
-
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
                         <?php foreach ($data['projects'] as $i => $project): ?>
@@ -86,7 +85,7 @@
 <footer class="main-footer">
     <div class="container">
         <div class="main-footer__copyright">
-            <p>© <?=(date('Y')); ?>, «Дела в порядке»</p>
+            <p>© <?= date('Y'); ?>, «Дела в порядке»</p>
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
