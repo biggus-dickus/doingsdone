@@ -10,42 +10,42 @@ $tasks = [
     [
         'taskName' => 'Собеседование в IT-компании',
         'deadline' => '01.06.2018',
-        'category' => 'Работа',
+        'category' => $projects[3],
         'isDone' => false
     ],
     [
         'taskName' => 'Выполнить тестовое задание',
         'deadline' => '25.05.2018',
-        'category' => 'Работа',
+        'category' => $projects[3],
         'isDone' => false
     ],
     [
         'taskName' => 'Сделать задание первого раздела',
         'deadline' => '21.04.2018',
-        'category' => 'Учеба',
+        'category' => $projects[2],
         'isDone' => true
     ],
     [
         'taskName' => 'Встреча с другом',
         'deadline' => '22.04.2018',
-        'category' => 'Входящие',
+        'category' => $projects[1],
         'isDone' => false
     ],
     [
         'taskName' => 'Купить корм для кота',
         'deadline' => '—',
-        'category' => 'Домашние дела',
+        'category' => $projects[4],
         'isDone' => false
     ],
     [
         'taskName' => 'Заказать пиццу',
         'deadline' => '—',
-        'category' => 'Домашние дела',
+        'category' => $projects[4],
         'isDone' => false
     ]
 ];
 
-$mainContent = renderTemplate('templates/index.php', $tasks);
+$mainContent = renderTemplate('templates/index.php', [$projects, $tasks]);
 
 $templateData = [
     'indexTitle' => 'Дела в порядке',
@@ -55,4 +55,4 @@ $templateData = [
     'tasks' => $tasks
 ];
 
-echo renderTemplate('templates/layout.php', $templateData);
+print renderTemplate('templates/layout.php', $templateData);

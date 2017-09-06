@@ -9,7 +9,7 @@
 function renderTemplate($path, $data) {
     $templateString = '';
 
-    if (file_exists($path)) {
+    if (file_exists($path) && is_array($data)) {
         ob_start();
         require $path;
         $templateString = ob_get_clean();
