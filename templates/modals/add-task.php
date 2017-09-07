@@ -3,7 +3,6 @@ function parseDataArr($item) {
     return $item !== 'Все';
 }
 
-// Ну не вижу я смысла давать юзеру возможность выбирать категорию "Все"...
 $projects = array_filter($data['projects'], 'parseDataArr');
 
 // Required fields
@@ -21,7 +20,7 @@ $errorTaskDeadline = $data['errors']['deadline'] ?? '';
 
     <h2 class="modal__heading">Добавление задачи</h2>
 
-    <form class="form" action="index.php" method="post" enctype="multipart/form-data">
+    <form class="form" action="../index.php" method="post" enctype="multipart/form-data">
         <div class="form__row">
             <label class="form__label" for="name">Название <sup>*</sup></label>
 
@@ -32,7 +31,7 @@ $errorTaskDeadline = $data['errors']['deadline'] ?? '';
                    placeholder="Введите название"
                    value="<?=$taskName?>">
 
-            <span class='error-message'><?=$errorTaskName?></span>
+            <p class="error-message"><?=$errorTaskName?></p>
         </div>
 
         <div class="form__row">
@@ -57,7 +56,7 @@ $errorTaskDeadline = $data['errors']['deadline'] ?? '';
                    placeholder="ДД.ММ.ГГГГ"
                    value="<?=$taskDeadline?>">
 
-            <span class='error-message'><?=$errorTaskDeadline?></span>
+            <p class="error-message"><?=$errorTaskDeadline?></p>
         </div>
 
         <div class="form__row">

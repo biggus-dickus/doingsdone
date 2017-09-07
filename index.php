@@ -45,7 +45,7 @@ $tasks = [
     ]
 ];
 
-$mainContent = renderTemplate('templates/index.php', [$projects, $tasks]);
+$mainContent = renderTemplate('templates/index.php', ['projects' => $projects, 'tasks' => $tasks]);
 
 
 // Validation
@@ -54,7 +54,7 @@ $required = ['taskName', 'project', 'deadline'];
 $newTask = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $deadline = $_POST['deadline'];
+    $deadline = $_POST['deadline'] ?? '';
 
     // Check for empty fields
     foreach ($_POST as $key => $value) {
@@ -96,7 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $templateData = [
     'indexTitle' => 'Дела в порядке',
-    'username' => 'Константин',
+//    'user' => ['username' => 'Вася'],
+    'user' => [],
     'mainContent' => $mainContent,
     'projects' => $projects,
     'tasks' => $tasks,
