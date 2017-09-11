@@ -15,12 +15,15 @@ $errorTaskName = $data['errors']['taskName'] ?? '';
 $errorTaskDeadline = $data['errors']['deadline'] ?? '';
 ?>
 
+
 <div class="modal">
     <a href="?" class="modal__close" title="Закрыть">Закрыть</a>
 
     <h2 class="modal__heading">Добавление задачи</h2>
 
     <form class="form" action="../index.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="form_name" value="add_task">
+
         <div class="form__row">
             <label class="form__label" for="name">Название <sup>*</sup></label>
 
@@ -29,7 +32,7 @@ $errorTaskDeadline = $data['errors']['deadline'] ?? '';
                    name="taskName"
                    id="name"
                    placeholder="Введите название"
-                   value="<?=$taskName?>">
+                   value="<?=$taskName?>" autofocus>
 
             <p class="error-message"><?=$errorTaskName?></p>
         </div>

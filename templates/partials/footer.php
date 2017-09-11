@@ -5,7 +5,7 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
-        <?php if(!empty($data['user'])): ?>
+        <?php if(isset($_SESSION['user'])): ?>
             <a class="main-footer__button button button--plus" href="?add_task">Добавить задачу</a>
         <?php else: ?>
             <a class="main-footer__button button" href="?sign_in">Войти</a>
