@@ -31,7 +31,11 @@
         </div>
 
         <label class="checkbox">
-            <input id="show-complete-tasks" class="checkbox__input visually-hidden" type="checkbox">
+            <input id="show-complete-tasks"
+                   class="checkbox__input visually-hidden"
+                   type="checkbox"
+                   <?php if($data['showCompleted']):?>checked<?php endif; ?>
+            >
             <span class="checkbox__text">Показывать выполненные</span>
         </label>
     </div>
@@ -42,7 +46,12 @@
                     isset($_GET['project_id']) && $data['projects'][$_GET['project_id']] === $task['project']
                     || !isset($_GET['project_id'])
                     || (int) $_GET['project_id'] === 0): ?>
-                <tr class="tasks__item <?php if($task['isDone']): ?>task--completed<?php endif; ?>">
+                <tr class="tasks__item
+                <?php if($task['isDone'] && $data['showCompleted']): ?>
+                    task--completed
+                <?php elseif($task['isDone']): ?>
+                    hidden
+                <?php endif; ?>">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
                             <input class="checkbox__input visually-hidden" type="checkbox">
