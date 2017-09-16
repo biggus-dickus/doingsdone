@@ -19,13 +19,13 @@ $errorPassword = $data['errors']['password'] ?? '';
 
         <div class="form__row">
             <label class="form__label" for="email">E-mail <sup>*</sup></label>
-            <input class="form__input <?php if($errorEmail):?>form__input--error<?php endif; ?>" type="email" name="email" id="email" placeholder="Введите e-mail" value="<?=$email?>" autofocus>
+            <input class="form__input <?php if($errorEmail):?>form__input--error<?php endif; ?>" type="email" name="email" id="email" maxlength="128" placeholder="Введите e-mail" value="<?=$email?>" autofocus>
             <p class="error-message"><?=$errorEmail?></p>
         </div>
 
         <div class="form__row">
             <label class="form__label" for="password">Пароль <sup>*</sup></label>
-            <input class="form__input <?php if($errorPassword):?>form__input--error<?php endif; ?>" type="password" name="password" id="password" placeholder="Введите пароль" value="<?=$password?>">
+            <input class="form__input <?php if($errorPassword):?>form__input--error<?php endif; ?>" type="password" name="password" id="password" maxlength="32" placeholder="Введите пароль" value="<?=$password?>">
             <p class="error-message"><?=$errorPassword?></p>
         </div>
 
