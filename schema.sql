@@ -1,4 +1,4 @@
-CREATE DATABASE doingsdone;
+CREATE DATABASE doingsdone CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;;
 
 USE doingsdone;
 
@@ -9,7 +9,7 @@ CREATE TABLE users (
   name          CHAR(128) NOT NULL,
   password      CHAR(60) NOT NULL,
   contacts      CHAR(255),
-  is_deleted    TINYINT(1),
+  is_deleted    TINYINT(1) DEFAULT 0,
 
   INDEX username (name),
   UNIQUE INDEX usermail (email)
@@ -24,7 +24,7 @@ CREATE TABLE tasks (
   completed_on    DATETIME,
   deadline        DATETIME,
   attachment_URL  CHAR(255),
-  is_deleted      TINYINT(1),
+  is_deleted      TINYINT(1) DEFAULT 0,
 
   UNIQUE INDEX task (name)
 );
@@ -32,7 +32,8 @@ CREATE TABLE tasks (
 CREATE TABLE projects (
   id            INT AUTO_INCREMENT PRIMARY KEY,
   name          CHAR(128) NOT NULL,
-  is_deleted    TINYINT(1),
+  created_by    INT,
+  is_deleted    TINYINT(1) DEFAULT 0,
 
   UNIQUE INDEX project (name)
 );
