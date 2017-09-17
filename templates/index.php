@@ -1,10 +1,11 @@
 <main class="content__main">
     <h2 class="content__main-heading">Список задач</h2>
 
-    <form class="search-form" action="index.php" method="post">
-        <input class="search-form__input" name="" value="" placeholder="Поиск по задачам">
+    <form class="search-form" action="index.php" method="get">
+        <input type="hidden" name="form_name" value="search_form">
+        <input class="search-form__input" name="search_query" placeholder="Поиск по задачам">
 
-        <input class="search-form__submit" type="submit" name="" value="Искать">
+        <input class="search-form__submit" type="submit" value="Искать">
     </form>
 
     <div class="tasks-controls">
