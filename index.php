@@ -4,6 +4,8 @@ ini_set('display_errors', 1);
 
 require 'functions.php';
 require_once 'userdata.php';
+require_once 'mysql_helper.php';
+require 'init.php';
 
 session_start();
 
