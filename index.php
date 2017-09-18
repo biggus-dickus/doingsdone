@@ -133,7 +133,7 @@ if(isset($_GET['show_completed'])) {
 $mainContent = renderTemplate('templates/index.php', [
     'projects' => $projects,
     'tasks' => $tasks,
-    'showCompleted' => (isset($_COOKIE['show_completed']) && ((int)$_COOKIE['show_completed'] === 1))
+    'showCompleted' => (isset($_COOKIE['show_completed']) && $_COOKIE['show_completed'])
 ]);
 
 $templateData = [
