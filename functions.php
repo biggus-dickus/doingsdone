@@ -39,6 +39,24 @@ function getTasksAmount($tasksArr, $cat) {
 
 
 /**
+ * Checks the form for empty fields.
+ * @param array $requiredFields
+ * @return array
+ */
+function checkForEmptyFields($requiredFields) {
+    $errMessages = [];
+
+    foreach ($_POST as $key => $value) {
+        if (in_array($key, $requiredFields) && $value === '') {
+            $errMessages[$key] = 'Заполните это поле.';
+        }
+    }
+
+    return $errMessages;
+}
+
+
+/**
  * Checks if the date string matches the required format.
  * @param string $date
  * @param string $format
@@ -76,4 +94,24 @@ function parseUserInput($data) {
     $data = strip_tags($data);
 
     return $data;
+}
+
+
+/**
+ * Searches if a certain email exists in the array and returns it.
+ * @param string $email
+ * @param array $users
+ * @return string
+ */
+function searchUserByEmail($email, $users) {
+    $result = null;
+
+    foreach ($users as $user) {
+        if ($user['email'] === $email) {
+            $result = $user;
+            break;
+        }
+    }
+
+    return $result;
 }

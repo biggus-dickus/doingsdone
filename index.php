@@ -3,6 +3,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require 'functions.php';
+require_once 'userdata.php';
+
+session_start();
 
 $projects = ['Все', 'Входящие', 'Учеба', 'Работа', 'Домашние дела', 'Авто'];
 
@@ -45,58 +48,85 @@ $tasks = [
     ]
 ];
 
-$mainContent = renderTemplate('templates/index.php', [$projects, $tasks]);
+$mainContent = renderTemplate('templates/index.php', ['projects' => $projects, 'tasks' => $tasks]);
 
 
 // Validation
 $errors = [];
-$required = ['taskName', 'project', 'deadline'];
+$required = ['taskName', 'project', 'deadline', 'email', 'password'];
 $newTask = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $deadline = $_POST['deadline'];
+    $deadline = $_POST['deadline'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
 
-    // Check for empty fields
-    foreach ($_POST as $key => $value) {
-        if (in_array($key, $required) && $value === '') {
-            $errors[$key] = 'Заполните это поле.';
-        }
-    }
+    $errors = checkForEmptyFields($required);
 
-    // Check correct date format
-    if (!empty($deadline) && !validateDate($deadline)) {
-        $errors['deadline'] = 'Введите дату в формате ДД.ММ.ГГГГ.';
-    }
-
-    // Check if deadline is greater than the current date
-    if (validateDate($deadline) && isOverdue($deadline)) {
-        $errors['deadline'] = 'Дата выполнения задачи должна быть больше текущей даты.';
-    }
-
-    // Place the file to project root
-    if (isset($_FILES['task-attachment'])) {
-        $file_name = $_FILES['task-attachment']['name'];
-        $file_path = __DIR__ . '/';
-
-        move_uploaded_file($_FILES['task-attachment']['tmp_name'], $file_path . $file_name);
-    }
-
-    // Finally do smth useful
-    if (count($errors)) {
-        $_GET['add_task'] = 1;
-    } else {
-        foreach ($_POST as $key => $value) {
-            $newTask[$key] = parseUserInput($value);
+//////////////////////////////////
+/// 'ADD TASK' FORM PROCESSING
+/// /////////////////////////////
+    if($_POST['form_name'] === 'add_task') {
+        // Check correct date format
+        if (!empty($deadline) && !validateDate($deadline)) {
+            $errors['deadline'] = 'Введите дату в формате ДД.ММ.ГГГГ.';
         }
 
-        $newTask['isDone'] = false;
-        array_unshift($tasks, $newTask);
+        // Check if deadline is greater than the current date
+        if (validateDate($deadline) && isOverdue($deadline)) {
+            $errors['deadline'] = 'Дата выполнения задачи должна быть больше текущей даты.';
+        }
+
+        // Place the file to project root
+        if (isset($_FILES['task-attachment'])) {
+            $file_name = $_FILES['task-attachment']['name'];
+            $file_path = __DIR__ . '/';
+
+            move_uploaded_file($_FILES['task-attachment']['tmp_name'], $file_path . $file_name);
+        }
+
+        // Finally do smth useful
+        if (count($errors)) {
+            $_GET['add_task'] = 1;
+        } else {
+            foreach ($_POST as $key => $value) {
+                $newTask[$key] = parseUserInput($value);
+            }
+
+            $newTask['isDone'] = false;
+            array_unshift($tasks, $newTask);
+        }
+//////////////////////////////////
+/// 'SIGN IN' FORM PROCESSING
+/// /////////////////////////////
+    } else if($_POST['form_name'] === 'sign_in') {
+        $errors['email'] = ' ';
+        $errors['password'] = 'Неверный электронный адрес и/или пароль. Попробуйте еще раз.';
+
+        if (!empty($password) && $user = searchUserByEmail($email, $users)) {
+            if (password_verify($password, $user['password'])) {
+                $errors = [];
+
+                $_SESSION['user'] = $user;
+                header('Location: /index.php');
+            }
+        }
+
+        if (count($errors)) {
+            $_GET['sign_in'] = 1;
+        }
     }
 }
 
+// Sign out
+if(isset($_GET['sign_out'])) {
+    unset($_SESSION['user']);
+    header('Location: /index.php');
+}
+
+
 $templateData = [
-    'indexTitle' => 'Дела в порядке',
-    'username' => 'Константин',
+    'indexTitle' => 'Дыра в порядке',
     'mainContent' => $mainContent,
     'projects' => $projects,
     'tasks' => $tasks,

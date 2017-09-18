@@ -753,15 +753,10 @@ a:focus {
   margin-bottom: 0;
 }
 
-.form__message {
-  margin: 0;
-  margin-top: 2px;
-
-  font-size: 11px;
-  color: #f84646;
-}
-
 .error-message {
+  margin-top: .45em;
+  margin-bottom: 0;
+  font-size: 11px;
   color: #f84646;
 }
 
