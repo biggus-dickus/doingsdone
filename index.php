@@ -48,8 +48,6 @@ $tasks = [
     ]
 ];
 
-$mainContent = renderTemplate('templates/index.php', ['projects' => $projects, 'tasks' => $tasks]);
-
 
 // Validation
 $errors = [];
@@ -124,6 +122,17 @@ if(isset($_GET['sign_out'])) {
     header('Location: /index.php');
 }
 
+// My little kooky dance
+if(isset($_GET['show_completed'])) {
+    setcookie('show_completed', $_GET['show_completed']);
+    header('Location: /');
+}
+
+$mainContent = renderTemplate('templates/index.php', [
+    'projects' => $projects,
+    'tasks' => $tasks,
+    'showCompleted' => (isset($_COOKIE['show_completed']) && ((int)$_COOKIE['show_completed'] === 1))
+]);
 
 $templateData = [
     'indexTitle' => 'Дыра в порядке',
