@@ -57,7 +57,11 @@
                             <input class="checkbox__input visually-hidden" type="checkbox">
                             <span class="checkbox__text"><?= htmlspecialchars($task['taskName']) ?></span>
                         </label>
-                    <td class="task__date"><?=$task['deadline']?></td>
+                    <td class="task__date">
+                        <time datetime="<?= date('Y-m-d', strtotime($task['deadline'])); ?>">
+                            <?=$task['deadline']?>
+                        </time>
+                    </td>
 
                     <td class="task__controls">
                         <button class="expand-control" type="button" name="button">

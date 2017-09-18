@@ -32,6 +32,7 @@ $errorTaskDeadline = $data['errors']['deadline'] ?? '';
                    name="taskName"
                    id="name"
                    placeholder="Введите название"
+                   maxlength="128"
                    value="<?=$taskName?>" autofocus>
 
             <p class="error-message"><?=$errorTaskName?></p>
@@ -57,6 +58,7 @@ $errorTaskDeadline = $data['errors']['deadline'] ?? '';
                    name="deadline"
                    id="date"
                    placeholder="ДД.ММ.ГГГГ"
+                   maxlength="10"
                    value="<?=$taskDeadline?>">
 
             <p class="error-message"><?=$errorTaskDeadline?></p>
