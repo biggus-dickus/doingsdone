@@ -14,7 +14,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="img/favicons/favicon-16x16.png">
 </head>
 
-<body><!--class="overlay"-->
+<!-- Модальные окна на ПХП — это так здорово! :-D -->
+<body class="<?php if(isset($_GET['add_task'])):?>overlay<?php endif; ?>">
 <h1 class="visually-hidden">Дела в порядке</h1>
 <div class="page-wrapper">
     <div class="container container--with-sidebar">
@@ -24,7 +25,9 @@
             </a>
 
             <div class="main-header__side">
-                <a class="main-header__side-item button button--plus" href="#">Добавить задачу</a>
+                <a class="main-header__side-item button button--plus" href="?add_task=1">
+                    Добавить задачу
+                </a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__image">
@@ -43,12 +46,12 @@
         <div class="content">
             <aside class="content__side">
                 <h2 class="content__side-heading">Проекты</h2>
-
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
                         <?php foreach ($data['projects'] as $i => $project): ?>
                             <li class="main-navigation__list-item
-                                      <?php if( isset($_GET['project_id']) && (int) $_GET['project_id'] === $i ): ?>
+                                      <?php if( isset($_GET['project_id']) && (int) $_GET['project_id'] === $i
+                                          || !isset($_GET['project_id']) && $i === 0) : ?>
                                         main-navigation__list-item--active
                                       <?php endif; ?>">
                                 <a href="?project_id=<?=$i?>" class="main-navigation__list-item-link">
@@ -82,11 +85,13 @@
 <footer class="main-footer">
     <div class="container">
         <div class="main-footer__copyright">
-            <p>© <?=(date('Y')); ?>, «Дела в порядке»</p>
+            <p>© <?= date('Y'); ?>, «Дела в порядке»</p>
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
-        <a class="main-footer__button button button--plus">Добавить задачу</a>
+        <a class="main-footer__button button button--plus" href="?add_task=1">
+            Добавить задачу
+        </a>
 
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
@@ -117,49 +122,10 @@
     </div>
 </footer>
 
-<div class="modal" hidden>
-    <button class="modal__close" type="button" name="button">Закрыть</button>
-
-    <h2 class="modal__heading">Добавление задачи</h2>
-
-    <form class="form" action="index.html" method="post">
-        <div class="form__row">
-            <label class="form__label" for="name">Название <sup>*</sup></label>
-
-            <input class="form__input" type="text" name="name" id="name" value="" placeholder="Введите название">
-        </div>
-
-        <div class="form__row">
-            <label class="form__label" for="project">Проект <sup>*</sup></label>
-
-            <select class="form__input form__input--select" name="project" id="project">
-                <option value="">Входящие</option>
-            </select>
-        </div>
-
-        <div class="form__row">
-            <label class="form__label" for="date">Дата выполнения <sup>*</sup></label>
-
-            <input class="form__input form__input--date" type="text" name="date" id="date" value="" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
-        </div>
-
-        <div class="form__row">
-            <label class="form__label" for="file">Файл</label>
-
-            <div class="form__input-file">
-                <input class="visually-hidden" type="file" name="preview" id="preview" value="">
-
-                <label class="button button--transparent" for="preview">
-                    <span>Выберите файл</span>
-                </label>
-            </div>
-        </div>
-
-        <div class="form__row form__row--controls">
-            <input class="button" type="submit" name="" value="Добавить">
-        </div>
-    </form>
-</div>
+<?php if(isset($_GET['add_task'])) {
+    require_once 'templates/modal.php';
+}
+?>
 
 <script src="js/script.js"></script>
 </body>
