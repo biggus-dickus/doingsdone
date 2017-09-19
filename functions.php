@@ -1,4 +1,5 @@
 <?php
+require_once 'mysql_helper.php';
 
 /**
  * Processes and renders the file contents via output buffer.
@@ -111,6 +112,72 @@ function searchUserByEmail($email, $users) {
             $result = $user;
             break;
         }
+    }
+
+    return $result;
+}
+
+
+/**
+ * Reads data from MySQL and returns it as a two-dimensional array.
+ * @param mysqli $link
+ * @param string $sql
+ * @param array $data
+ * @return array
+ */
+function fetchData($link, $sql, $data = []) {
+    $result = [];
+
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+
+    if($stmt && mysqli_stmt_execute($stmt)) {
+        $result = mysqli_fetch_all(mysqli_stmt_get_result($stmt), MYSQLI_ASSOC);
+    }
+
+    return $result;
+}
+
+
+/**
+ * Inserts data (prepared statement) into MySQL table. Returns the primary key of the last successful entry or false if operation failed.
+ * @param mysqli $link
+ * @param string $table
+ * @param array $data
+ * @return bool || int
+ */
+function insertData($link, $table, $data) {
+    $result = false;
+
+    $columns = array_keys($data);
+    $values = array_values($data);
+    $placeholders = array_fill(0, count($values), '?');
+
+    $sql = 'INSERT INTO ' . $table . ' (' . implode(', ', $columns) . ') VALUES (' . implode(', ', $placeholders) . ')';
+
+    $stmt = db_get_prepare_stmt($link, $sql, $values);
+
+    if ($stmt && mysqli_stmt_execute($stmt)) {
+        $result = mysqli_insert_id($link);
+    }
+
+    return $result;
+}
+
+
+/**
+ * Performs the rest of db operations (delete and update).
+ * @param mysqli $link
+ * @param string $sql
+ * @param array $data
+ * @return bool
+ */
+function execQuery($link, $sql, $data = []) {
+    $result = false;
+
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+
+    if($stmt && mysqli_stmt_execute($stmt)) {
+        $result = true;
     }
 
     return $result;
