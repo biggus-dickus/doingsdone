@@ -124,6 +124,8 @@ function searchUserByEmail($email, $users) {
  * @param string $sql
  * @param array $data
  * @return array
+ *
+ * @example fetchData($link, 'SELECT * FROM users WHERE id = ?', [123]);
  */
 function fetchData($link, $sql, $data = []) {
     $result = [];
@@ -144,6 +146,8 @@ function fetchData($link, $sql, $data = []) {
  * @param string $table
  * @param array $data
  * @return bool || int
+ *
+ * @example insertData($link, 'users', ['email' => 'abc@bca.ru', 'name' => 'neo777']);
  */
 function insertData($link, $table, $data) {
     $result = false;
@@ -170,6 +174,8 @@ function insertData($link, $table, $data) {
  * @param string $sql
  * @param array $data
  * @return bool
+ *
+ * @example execQuery($link, 'DELETE FROM users WHERE id = ?', [123]);
  */
 function execQuery($link, $sql, $data = []) {
     $result = false;

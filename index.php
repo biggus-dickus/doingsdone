@@ -1,12 +1,17 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 require 'functions.php';
-require_once 'userdata.php';
 require 'init.php';
 
 $link = connectToDb();
+
+if (!$link) {
+    print renderTemplate('templates/error.php', ['error' => mysqli_connect_error()]);
+    exit;
+}
+
+mysqli_set_charset($link, 'utf8');
+
+$users = fetchData($link, 'SELECT id, email, name, password FROM users');
 
 session_start();
 
