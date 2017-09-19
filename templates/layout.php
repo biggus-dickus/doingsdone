@@ -26,7 +26,6 @@
             <?php
                 if (isset($_GET['project_id']) && !array_key_exists($_GET['project_id'], $data['projects'])) {
                     http_response_code(404);
-//                    print('Проекта с идентификатором&nbsp;<b>'.$_GET['project_id'].'</b>&nbsp;не существует.');
                     print(renderTemplate('templates/error.php', ['error' => 'Проекта с идентификатором&nbsp;<b>'.$_GET['project_id'].'</b>&nbsp;не существует.']));
 
                 } else if(!isset($_SESSION['user'])) {
