@@ -23,14 +23,14 @@ function renderTemplate($path, $data) {
 /**
  * Calculates the total number of tasks in the project.
  * @param array $tasksArr
- * @param string $cat
+ * @param int $cat
  * @return int
  */
 function getTasksAmount($tasksArr, $cat) {
     $total = 0;
 
     foreach ($tasksArr as $task) {
-        if ($task['project'] === $cat || $cat === 'Все') {
+        if ($task['project_id'] === $cat || $cat === 0) {
             $total++;
         }
     }

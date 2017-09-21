@@ -1,3 +1,12 @@
+<?php
+function formatDate($date) {
+    $f_date = is_null($date) ? '—' : date('d.m.Y', strtotime($date));
+
+    return $f_date;
+}
+?>
+
+
 <main class="content__main">
     <h2 class="content__main-heading">Список задач</h2>
 
@@ -44,23 +53,23 @@
     <table class="tasks">
         <?php foreach ($data['tasks'] as $task): ?>
             <?php if (
-                    isset($_GET['project_id']) && $data['projects'][$_GET['project_id']] === $task['project']
+                    isset($_GET['project_id']) && (int) $_GET['project_id'] === $task['project_id']
                     || !isset($_GET['project_id'])
                     || (int) $_GET['project_id'] === 0): ?>
                 <tr class="tasks__item
-                <?php if($task['isDone'] && $data['showCompleted']): ?>
+                <?php if($task['completed_on'] && $data['showCompleted']): ?>
                     task--completed
-                <?php elseif($task['isDone']): ?>
+                <?php elseif($task['completed_on']): ?>
                     hidden
                 <?php endif; ?>">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
-                            <input class="checkbox__input visually-hidden" type="checkbox" <?php if($task['isDone']):?>checked<?php endif; ?>>
-                            <span class="checkbox__text"><?= htmlspecialchars($task['taskName']) ?></span>
+                            <input class="checkbox__input visually-hidden" type="checkbox" <?php if($task['completed_on']):?>checked<?php endif; ?>>
+                            <span class="checkbox__text"><?= htmlspecialchars($task['name']) ?></span>
                         </label>
                     <td class="task__date">
-                        <time datetime="<?= date('Y-m-d', strtotime($task['deadline'])); ?>">
-                            <?=$task['deadline']?>
+                        <time datetime="<?=$task['deadline']?>">
+                            <?= formatDate($task['deadline']); ?>
                         </time>
                     </td>
 

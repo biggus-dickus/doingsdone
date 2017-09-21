@@ -48,6 +48,10 @@ $errorTaskDeadline = $data['errors']['deadline'] ?? '';
                     </option>
                 <?php endforeach; ?>
             </select>
+
+            <?php if(count($projects) <= 1): ?>
+                <p class="error-message">Нельзя добавлять задачи, не создав предварительно хотя бы одного проекта.</p>
+            <?php endif; ?>
         </div>
 
         <div class="form__row">
@@ -77,7 +81,8 @@ $errorTaskDeadline = $data['errors']['deadline'] ?? '';
         </div>
 
         <div class="form__row form__row--controls">
-            <input class="button" type="submit" name="" value="Добавить">
+            <input class="button" type="submit" value="Добавить"
+                   <?php if(count($projects) <= 1): ?>disabled<?php endif; ?>>
         </div>
     </form>
 </div>

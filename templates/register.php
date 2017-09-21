@@ -8,7 +8,7 @@
 
             <input class="form__input form__input--error" type="email" name="email" id="email" placeholder="Введите e-mail" autofocus>
 
-            <p class="form__message">E-mail введён некорректно</p>
+            <p class="error-message">E-mail введён некорректно</p>
         </div>
 
         <div class="form__row">

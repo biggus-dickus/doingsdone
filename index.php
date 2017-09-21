@@ -12,55 +12,28 @@ if (!$link) {
 mysqli_set_charset($link, 'utf8');
 
 $users = fetchData($link, 'SELECT id, email, name, password FROM users');
+$projects = ['Все'];
+$tasks = [];
 
 session_start();
+$userId = $_SESSION['user']['id'] ?? 0;
 
-$projects = ['Все', 'Входящие', 'Учеба', 'Работа', 'Домашние дела', 'Авто'];
 
-$tasks = [
-    [
-        'taskName' => 'Собеседование в IT-компании',
-        'deadline' => '01.06.2018',
-        'project' => $projects[3],
-        'isDone' => false
-    ],
-    [
-        'taskName' => 'Выполнить тестовое задание',
-        'deadline' => '25.05.2018',
-        'project' => $projects[3],
-        'isDone' => false
-    ],
-    [
-        'taskName' => 'Сделать задание первого раздела',
-        'deadline' => '21.04.2018',
-        'project' => $projects[2],
-        'isDone' => true
-    ],
-    [
-        'taskName' => 'Встреча с другом',
-        'deadline' => '22.04.2018',
-        'project' => $projects[1],
-        'isDone' => false
-    ],
-    [
-        'taskName' => 'Купить корм для кота',
-        'deadline' => '—',
-        'project' => $projects[4],
-        'isDone' => false
-    ],
-    [
-        'taskName' => 'Заказать пиццу',
-        'deadline' => '—',
-        'project' => $projects[4],
-        'isDone' => false
-    ]
-];
+// Get dynamic data
+if (isset($_SESSION['user'])) {
+    $tasks = fetchData($link, 'SELECT name, deadline, project_id, completed_on from tasks WHERE created_by = ? ORDER BY created_on DESC', [$userId]);
+
+    $dbProjects = fetchData($link, 'SELECT name from projects WHERE created_by = ?', [$userId]);
+
+    foreach ($dbProjects as $key => $val) {
+        array_push($projects, $val['name']);
+    }
+}
 
 
 // Validation
 $errors = [];
 $required = ['taskName', 'project', 'deadline', 'email', 'password'];
-$newTask = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $deadline = $_POST['deadline'] ?? '';
@@ -95,13 +68,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (count($errors)) {
             $_GET['add_task'] = 1;
         } else {
-            foreach ($_POST as $key => $value) {
-                $newTask[$key] = parseUserInput($value);
-            }
+            $taskName = parseUserInput($_POST['taskName']);
 
-            $newTask['isDone'] = false;
-            array_unshift($tasks, $newTask);
+            if (insertData($link, 'tasks', [
+                'project_id' => array_search($_POST['project'], $projects),
+                'name' => $taskName,
+                'created_by' => $userId,
+                'created_on' => date('Y-m-d H:i:s'),
+                'deadline' => date('Y-m-d H:i:s', strtotime($_POST['deadline'])),
+                'attachment_url' => (isset($_FILES['task-attachment'])) ? __DIR__.'/'.$_FILES['task-attachment']['name'] : NULL
+            ])) {
+                header('Location: /');
+            } else {
+                print renderTemplate('templates/error.php', ['error' => mysqli_error($link)]);
+            }
         }
+
 //////////////////////////////////
 /// 'SIGN IN' FORM PROCESSING
 /// /////////////////////////////
@@ -124,18 +106,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+
 // Sign out
-if(isset($_GET['sign_out'])) {
+if (isset($_GET['sign_out'])) {
     unset($_SESSION['user']);
     header('Location: /index.php');
 }
 
+
 // My little kooky dance
-if(isset($_GET['show_completed'])) {
+if (isset($_GET['show_completed'])) {
     setcookie('show_completed', $_GET['show_completed']);
     header('Location: /');
 }
 
+
+// Template data
 $mainContent = renderTemplate('templates/index.php', [
     'projects' => $projects,
     'tasks' => $tasks,

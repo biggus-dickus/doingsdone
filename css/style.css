@@ -117,6 +117,14 @@ a:focus {
   border: 0;
   border-radius: 3px;
 }
+.button[disabled] {
+  cursor: not-allowed;
+  background: #cecece;
+}
+
+.button[disabled]:hover {
+  background: #cecece;
+}
 
 .button--plus::before {
   content: "+";

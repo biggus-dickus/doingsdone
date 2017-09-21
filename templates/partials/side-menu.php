@@ -22,14 +22,14 @@ $pid = $_GET['project_id'] ?? '';
                     </a>
 
                     <span class="main-navigation__list-item-count">
-                        <?= getTasksAmount($data['tasks'], $project) ?>
+                        <?= getTasksAmount($data['tasks'], $project_id) ?>
                     </span>
                 </li>
             <?php endforeach; ?>
         </ul>
     </nav>
 
-    <a class="button button--transparent button--plus content__side-button" href="#">Добавить проект</a>
+    <a class="button button--transparent button--plus content__side-button" href="?add_project">Добавить проект</a>
     <?php endif; ?>
 
     <?php if(!isset($_SESSION['user']) && isset($_GET['sign_up'])): ?>
