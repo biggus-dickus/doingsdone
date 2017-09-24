@@ -1,8 +1,4 @@
 <?php
-// Required fields
-$projectName = $_POST['project'] ?? '';
-
-// Error messages
 $errorProjectName = $data['errors']['projectName'] ?? '';
 ?>
 
@@ -11,7 +7,7 @@ $errorProjectName = $data['errors']['projectName'] ?? '';
 
     <h2 class="modal__heading">Добавление проекта</h2>
 
-    <form class="form" action="../index.php" method="post">
+    <form class="form" action="index.php" method="post">
         <input type="hidden" name="form_name" value="add_project">
 
         <div class="form__row">
@@ -22,8 +18,9 @@ $errorProjectName = $data['errors']['projectName'] ?? '';
                    name="projectName"
                    id="name"
                    placeholder="Введите название"
+                   minlength="3"
                    maxlength="128"
-                   value="<?= $projectName ?>" autofocus>
+                   autofocus>
 
             <p class="error-message"><?= $errorProjectName ?></p>
         </div>

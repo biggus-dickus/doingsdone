@@ -21,7 +21,7 @@ $errorTaskDeadline = $data['errors']['deadline'] ?? '';
 
     <h2 class="modal__heading">Добавление задачи</h2>
 
-    <form class="form" action="../index.php" method="post" enctype="multipart/form-data">
+    <form class="form" action="index.php" method="post" enctype="multipart/form-data">
         <input type="hidden" name="form_name" value="add_task">
 
         <div class="form__row">
@@ -49,13 +49,13 @@ $errorTaskDeadline = $data['errors']['deadline'] ?? '';
                 <?php endforeach; ?>
             </select>
 
-            <?php if(count($projects) <= 1): ?>
-                <p class="error-message">Нельзя добавлять задачи, не создав предварительно хотя бы одного проекта.</p>
+            <?php if(count($projects) < 1): ?>
+                <p class="error-message">Нельзя добавлять задачи, не&nbsp;создав предварительно хотя бы&nbsp;одного проекта.</p>
             <?php endif; ?>
         </div>
 
         <div class="form__row">
-            <label class="form__label" for="date">Дата выполнения <sup>*</sup></label>
+            <label class="form__label" for="date">Дата выполнения</label>
 
             <input class="form__input form__input--date <?php if($errorTaskDeadline):?>form__input--error<?php endif; ?>"
                    type="text"
@@ -82,7 +82,7 @@ $errorTaskDeadline = $data['errors']['deadline'] ?? '';
 
         <div class="form__row form__row--controls">
             <input class="button" type="submit" value="Добавить"
-                   <?php if(count($projects) <= 1): ?>disabled<?php endif; ?>>
+                   <?php if(count($projects) < 1): ?>disabled<?php endif; ?>>
         </div>
     </form>
 </div>

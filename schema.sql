@@ -21,9 +21,11 @@ CREATE TABLE tasks (
   created_by      INT,
   created_on      DATETIME NOT NULL,
   completed_on    DATETIME,
-  deadline        DATETIME,
+  deadline        DATETIME DEFAULT NULL,
   attachment_URL  CHAR(255),
-  is_deleted      TINYINT(1) DEFAULT 0
+  is_deleted      TINYINT(1) DEFAULT 0,
+
+  INDEX taskName (name)
 );
 
 CREATE TABLE projects (

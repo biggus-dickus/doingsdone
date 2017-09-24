@@ -1,3 +1,14 @@
+<?php
+// Values
+$name = $_POST['name'] ?? '';
+$email = $_POST['email'] ?? '';
+
+// Error messages
+$errorName = $data['errors']['name'] ?? '';
+$errorEmail = $data['errors']['email'] ?? '';
+$errorPassword = $data['errors']['password'] ?? '';
+?>
+
 <main class="content__main">
     <h2 class="content__main-heading">Регистрация аккаунта</h2>
 
@@ -6,26 +17,41 @@
         <div class="form__row">
             <label class="form__label" for="email">E-mail <sup>*</sup></label>
 
-            <input class="form__input form__input--error" type="email" name="email" id="email" placeholder="Введите e-mail" autofocus>
+            <input class="form__input <?php if($errorEmail):?>form__input--error<?php endif; ?>"
+                   type="email"
+                   name="email"
+                   id="email"
+                   placeholder="Введите e-mail"
+                   value="<?=$email?>"
+                   autofocus>
 
-            <p class="error-message">E-mail введён некорректно</p>
+            <p class="error-message"><?=$errorEmail?></p>
         </div>
 
         <div class="form__row">
             <label class="form__label" for="password">Пароль <sup>*</sup></label>
 
-            <input class="form__input" type="password" name="password" id="password" placeholder="Введите пароль">
+            <input class="form__input <?php if($errorPassword):?>form__input--error<?php endif; ?>"
+                   type="password"
+                   name="password"
+                   id="password"
+                   placeholder="Введите пароль">
+            <p class="error-message"><?=$errorPassword?></p>
         </div>
 
         <div class="form__row">
             <label class="form__label" for="name">Имя <sup>*</sup></label>
 
-            <input class="form__input" type="text" name="name" id="name" placeholder="Введите имя">
+            <input class="form__input <?php if($errorName):?>form__input--error<?php endif; ?>"
+                   type="text"
+                   name="name"
+                   id="name"
+                   value="<?=$name?>"
+                   placeholder="Введите имя">
+            <p class="error-message"><?=$errorName;?></p>
         </div>
 
         <div class="form__row form__row--controls">
-            <p class="error-message">Пожалуйста, исправьте ошибки в форме</p>
-
             <input class="button" type="submit" value="Зарегистрироваться">
         </div>
     </form>

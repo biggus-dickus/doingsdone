@@ -1,6 +1,6 @@
 <?php
 function formatDate($date) {
-    $f_date = is_null($date) ? '—' : date('d.m.Y', strtotime($date));
+    $f_date = (is_null($date) || strtotime($date) === 0) ? '—' : date('d.m.Y', strtotime($date));
 
     return $f_date;
 }
@@ -57,14 +57,15 @@ function formatDate($date) {
                     || !isset($_GET['project_id'])
                     || (int) $_GET['project_id'] === 0): ?>
                 <tr class="tasks__item
-                <?php if($task['completed_on'] && $data['showCompleted']): ?>
+                <?php if($task['completed_on']): ?>
                     task--completed
-                <?php elseif($task['completed_on']): ?>
-                    hidden
                 <?php endif; ?>">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
-                            <input class="checkbox__input visually-hidden" type="checkbox" <?php if($task['completed_on']):?>checked<?php endif; ?>>
+                            <input
+                                    class="checkbox__input visually-hidden"
+                                    type="checkbox"
+                                    <?php if($task['completed_on']):?>checked disabled<?php endif; ?>>
                             <span class="checkbox__text"><?= htmlspecialchars($task['name']) ?></span>
                         </label>
                     <td class="task__date">
@@ -74,15 +75,17 @@ function formatDate($date) {
                     </td>
 
                     <td class="task__controls">
-                        <button class="expand-control" type="button" name="button">
-                            <?= htmlspecialchars($task['taskName']) ?>
-                        </button>
+                        <button class="expand-control" type="button" name="button">Дополнительные действия</button>
                         <ul class="expand-list hidden">
                             <li class="expand-list__item">
-                                <a href="#">Выполнить</a>
+                                <a href="?complete_task=<?=$task['id']?>">
+                                    Выполнить
+                                </a>
                             </li>
                             <li class="expand-list__item">
-                                <a href="#">Удалить</a>
+                                <a href="?delete_task=<?=$task['id']?>">
+                                    Удалить
+                                </a>
                             </li>
                         </ul>
                     </td>
