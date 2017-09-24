@@ -11,28 +11,14 @@ if (!$link) {
 
 mysqli_set_charset($link, 'utf8');
 
-$users = fetchData($link, 'SELECT id, email, name, password FROM users');
+$users = fetchData($link, 'SELECT id, email, name, password, userpic FROM users');
 $projects = ['Все'];
 $tasks = [];
 
 session_start();
 $userId = $_SESSION['user']['id'] ?? 0;
 
-
-// Get dynamic data
-$showAll = (isset($_COOKIE['show_completed']) && $_COOKIE['show_completed']) ? '' : '&& completed_on IS NULL';
-
-if (isset($_SESSION['user'])) {
-    require_once 'db-operations.php';
-
-    $tasks = fetchData($link, "SELECT id, name, deadline, project_id, completed_on from tasks WHERE created_by = ? && is_deleted = ? $showAll ORDER BY created_on DESC", [$userId, 0]);
-
-    $dbProjects = fetchData($link, 'SELECT name from projects WHERE created_by = ?', [$userId]);
-
-    foreach ($dbProjects as $key => $val) {
-        array_push($projects, $val['name']);
-    }
-}
+require_once 'db-queries.php';
 
 
 // Validation

@@ -9,6 +9,7 @@ CREATE TABLE users (
   name          CHAR(128) NOT NULL,
   password      CHAR(60) NOT NULL,
   contacts      CHAR(255),
+  userpic       CHAR(255) DEFAULT NULL,
   is_deleted    TINYINT(1) DEFAULT 0,
 
   INDEX username (name)
