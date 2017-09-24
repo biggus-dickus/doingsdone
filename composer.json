@@ -2,5 +2,6 @@
     "name": "doingsdone",
     "description": "Личный проект «Дела в Порядке» от HTML Academy",
     "type": "project",
+    "private": true,
     "require": {}
 }
