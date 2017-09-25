@@ -4,8 +4,9 @@ ini_set('display_errors', 1);
 
 require 'functions.php';
 require_once 'userdata.php';
-require_once 'mysql_helper.php';
 require 'init.php';
+
+$link = connectToDb();
 
 session_start();
 
@@ -133,7 +134,7 @@ if(isset($_GET['show_completed'])) {
 $mainContent = renderTemplate('templates/index.php', [
     'projects' => $projects,
     'tasks' => $tasks,
-    'showCompleted' => (isset($_COOKIE['show_completed']) && ((int)$_COOKIE['show_completed'] === 1))
+    'showCompleted' => (isset($_COOKIE['show_completed']) && $_COOKIE['show_completed'])
 ]);
 
 $templateData = [

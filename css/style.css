@@ -760,6 +760,14 @@ a:focus {
   color: #f84646;
 }
 
+.error pre {
+  padding: .33em .5rem;
+  font-size: 90%;
+  color: #bd4147;
+  background-color: #f7f7f9;
+  border-radius: .25em;
+}
+
 .welcome {
   width: 540px;
   margin: 75px auto 0;

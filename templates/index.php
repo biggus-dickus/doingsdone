@@ -55,7 +55,7 @@
                 <?php endif; ?>">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
-                            <input class="checkbox__input visually-hidden" type="checkbox">
+                            <input class="checkbox__input visually-hidden" type="checkbox" <?php if($task['isDone']):?>checked<?php endif; ?>>
                             <span class="checkbox__text"><?= htmlspecialchars($task['taskName']) ?></span>
                         </label>
                     <td class="task__date">
