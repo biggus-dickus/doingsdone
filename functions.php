@@ -178,13 +178,9 @@ function insertData($link, $table, $data) {
  * @example execQuery($link, 'DELETE FROM users WHERE id = ?', [123]);
  */
 function execQuery($link, $sql, $data = []) {
-    $result = false;
-
     $stmt = db_get_prepare_stmt($link, $sql, $data);
 
-    if($stmt && mysqli_stmt_execute($stmt)) {
-        $result = true;
-    }
+    $result = ($stmt && mysqli_stmt_execute($stmt));
 
     return $result;
 }

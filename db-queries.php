@@ -47,4 +47,12 @@ if (isset($_SESSION['user'])) {
 
         $tasks = fetchData($link, "SELECT id, name, deadline, project_id, completed_on from tasks WHERE created_by = ? && is_deleted = ? && $deadline $showAll", [$userId, 0]);
     }
+
+
+    // Search tasks by name
+    if (isset($_GET['q'])) {
+        $query = '%'.parseUserInput($_GET['q']).'%';
+
+        $tasks = fetchData($link, "SELECT id, name, deadline, project_id, completed_on from tasks WHERE created_by = ? && is_deleted = ? && name LIKE ? $showAll", [$userId, 0, $query]);
+    }
 }

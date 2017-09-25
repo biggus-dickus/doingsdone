@@ -1,7 +1,4 @@
 <?php
-if(file_exists('vendor/autoload.php')) {
-    include 'vendor/autoload.php';
-}
 require 'functions.php';
 require 'init.php';
 
@@ -11,6 +8,8 @@ if (!$link) {
     print renderTemplate('templates/error.php', ['error' => mysqli_connect_error()]);
     exit;
 }
+
+require 'notify.php';
 
 mysqli_set_charset($link, 'utf8');
 

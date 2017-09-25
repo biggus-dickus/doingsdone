@@ -4,6 +4,24 @@ function formatDate($date) {
 
     return $f_date;
 }
+
+$q = (isset($_GET['q'])) ? parseUserInput($_GET['q']) : null;
+$punctuation = (count($data['tasks']) === 0) ? '.' : ':';
+
+$queryLength = count($data['tasks']);
+
+switch ($queryLength) {
+    case 1:
+        $res = 'результат';
+        break;
+    case 2:
+    case 3:
+    case 4:
+        $res = 'результата';
+        break;
+    default:
+        $res = 'результатов';
+}
 ?>
 
 
@@ -11,9 +29,7 @@ function formatDate($date) {
     <h2 class="content__main-heading">Список задач</h2>
 
     <form class="search-form" action="index.php" method="get">
-        <input type="hidden" name="form_name" value="search_form">
-        <input class="search-form__input" name="search_query" placeholder="Поиск по задачам">
-
+        <input class="search-form__input" name="q" placeholder="Поиск по задачам">
         <input class="search-form__submit" type="submit" value="Искать">
     </form>
 
@@ -70,6 +86,12 @@ function formatDate($date) {
             <span class="checkbox__text">Показывать выполненные</span>
         </label>
     </div>
+
+    <?php if(isset($_GET['q'])): ?>
+        <p>
+            По запросу <i>&laquo;<?=$q?>&raquo;</i> найдено <?=count($data['tasks']) .'&nbsp;'.$res.$punctuation?>
+        </p>
+    <?php endif;?>
 
     <table class="tasks">
         <?php foreach ($data['tasks'] as $task): ?>

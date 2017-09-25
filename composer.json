@@ -3,5 +3,7 @@
     "description": "Личный проект «Дела в Порядке» от HTML Academy",
     "type": "project",
     "private": true,
-    "require": {}
+    "require": {
+        "swiftmailer/swiftmailer": "^6.0"
+    }
 }
