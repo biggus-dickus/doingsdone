@@ -9,8 +9,6 @@ if (!$link) {
     exit;
 }
 
-require 'notify.php';
-
 mysqli_set_charset($link, 'utf8');
 
 $users = fetchData($link, 'SELECT id, email, name, password, userpic FROM users');
