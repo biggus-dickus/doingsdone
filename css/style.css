@@ -117,6 +117,14 @@ a:focus {
   border: 0;
   border-radius: 3px;
 }
+.button[disabled] {
+  cursor: not-allowed;
+  background: #cecece;
+}
+
+.button[disabled]:hover {
+  background: #cecece;
+}
 
 .button--plus::before {
   content: "+";
@@ -494,9 +502,14 @@ a:focus {
 
 .checkbox__text:hover::before,
 .checkbox__text:focus::before,
-.checkbox__input:checked + .checkbox__text:hover::before,
-.checkbox__input:checked + .checkbox__text:focus::before {
+.checkbox__input:checked:not(:disabled) + .checkbox__text:hover::before,
+.checkbox__input:checked:not(:disabled) + .checkbox__text:focus::before {
   border: 1px solid #6e45e2;
+}
+
+.checkbox__input:disabled + .checkbox__text,
+.checkbox__input:disabled + .checkbox__text {
+  cursor: not-allowed;
 }
 
 .radio-button__input:focus + .radio-button__text,
