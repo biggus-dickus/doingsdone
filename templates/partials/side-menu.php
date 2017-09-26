@@ -1,5 +1,5 @@
 <?php
-$pid = $_GET['project_id'] ?? '';
+$projectId = $_GET['project_id'] ?? '';
 ?>
 
 <aside class="content__side">
@@ -9,12 +9,12 @@ $pid = $_GET['project_id'] ?? '';
         <ul class="main-navigation__list">
             <?php foreach ($data['projects'] as $project_id => $project): ?>
                 <li class="main-navigation__list-item
-                    <?php if((int) $pid === $project_id
-                    || !$pid && $project_id === 0): ?>
+                    <?php if((int) $projectId === $project_id
+                    || !$projectId && $project_id === 0): ?>
                         main-navigation__list-item--active
                     <?php endif; ?>">
 
-                    <a <?php if((int) $pid !== $project_id): ?>
+                    <a <?php if((int) $projectId !== $project_id): ?>
                         href="?project_id=<?=$project_id?>"
                         <?php endif; ?>
                         class="main-navigation__list-item-link">
