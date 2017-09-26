@@ -64,9 +64,9 @@ function checkForEmptyFields($requiredFields) {
  * @return bool
  */
 function validateDate($date, $format = 'd.m.Y') {
-    $d = DateTime::createFromFormat($format, $date);
+    $correctDate = DateTime::createFromFormat($format, $date);
 
-    return $d && $d->format($format) == $date;
+    return $correctDate && $correctDate->format($format) === $date;
 }
 
 
