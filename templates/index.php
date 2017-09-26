@@ -78,7 +78,7 @@ switch ($queryLength) {
         </div>
 
         <label class="checkbox">
-            <input id="show-complete-tasks"
+            <input id="show-completed-tasks"
                    class="checkbox__input visually-hidden"
                    type="checkbox"
                    <?php if($data['showCompleted']):?>checked<?php endif; ?>
@@ -106,9 +106,10 @@ switch ($queryLength) {
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
                             <input
-                                    class="checkbox__input visually-hidden"
+                                    class="checkbox__input visually-hidden js-completion-toggler"
+                                    data-task-id="<?=$task['id']?>"
                                     type="checkbox"
-                                    <?php if($task['completed_on']):?>checked disabled<?php endif; ?>>
+                                    <?php if($task['completed_on']):?>checked<?php endif; ?>>
                             <span class="checkbox__text"><?= htmlspecialchars($task['name']) ?></span>
                         </label>
                     <td class="task__date">
@@ -121,9 +122,15 @@ switch ($queryLength) {
                         <button class="expand-control" type="button" name="button">Дополнительные действия</button>
                         <ul class="expand-list hidden">
                             <li class="expand-list__item">
-                                <a href="?complete_task=<?=$task['id']?>">
-                                    Выполнить
-                                </a>
+                                <?php if($task['completed_on']): ?>
+                                    <a href="?complete_task=0&task_id=<?=$task['id']?>">
+                                        Отметить как невыполненную
+                                    </a>
+                                <?php else: ?>
+                                    <a href="?complete_task=1&task_id=<?=$task['id']?>">
+                                        Выполнить
+                                    </a>
+                                <?php endif; ?>
                             </li>
                             <li class="expand-list__item">
                                 <a href="?delete_task=<?=$task['id']?>">

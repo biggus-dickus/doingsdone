@@ -16,7 +16,8 @@ document.body.addEventListener('click', hidePopups, true);
   });
 });
 
-var $checkbox = document.getElementsByClassName('checkbox__input')[0];
+var $checkbox = document.getElementById('show-completed-tasks');
+var completionTogglers = document.querySelectorAll('.js-completion-toggler');
 
 if($checkbox) {
   $checkbox.addEventListener('change', function(event) {
@@ -25,6 +26,14 @@ if($checkbox) {
       window.location = '/index.php?show_completed=' + is_checked;
   });
 }
+
+[].forEach.call(completionTogglers, function(toggler) {
+    toggler.addEventListener('change', function(evt) {
+        var is_checked = +evt.target.checked;
+
+        window.location = '/index.php?complete_task=' + is_checked + '&task_id=' + evt.target.dataset.taskId;
+    });
+});
 
 var filterRadios = document.querySelectorAll('.radio-button__input');
 

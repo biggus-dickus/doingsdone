@@ -20,8 +20,13 @@ if (isset($_SESSION['user'])) {
 
 
     // Complete task
-    if (isset($_GET['complete_task'])) {
-        execQuery($link, 'UPDATE tasks SET completed_on = NOW() WHERE id = ?', [$_GET['complete_task']]);
+    if (isset($_GET['complete_task']) && isset($_GET['task_id'])) {
+        if((int)$_GET['complete_task'] === 1) {
+            execQuery($link, 'UPDATE tasks SET completed_on = NOW() WHERE id = ?', [$_GET['task_id']]);
+        } else if((int)$_GET['complete_task'] === 0) {
+            execQuery($link, 'UPDATE tasks SET completed_on = NULL WHERE id = ?', [$_GET['task_id']]);
+        }
+
         header('Location: /');
     }
 
