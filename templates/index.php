@@ -20,22 +20,43 @@ function formatDate($date) {
     <div class="tasks-controls">
         <div class="radio-button-group">
             <label class="radio-button">
-                <input class="radio-button__input visually-hidden" type="radio" name="radio" checked="">
+                <input class="radio-button__input visually-hidden"
+                       type="radio"
+                       name="radio"
+                       value="all"
+                       <?php if(!isset($_GET['show_tasks'])
+                           ||isset($_GET['show_tasks']) && $_GET['show_tasks'] === 'all'):?>checked<?php endif; ?>
+                >
                 <span class="radio-button__text">Все задачи</span>
             </label>
 
             <label class="radio-button">
-                <input class="radio-button__input visually-hidden" type="radio" name="radio">
+                <input class="radio-button__input visually-hidden"
+                       type="radio"
+                       name="radio"
+                       value="today"
+                       <?php if(isset($_GET['show_tasks']) && $_GET['show_tasks'] === 'today'):?>checked<?php endif; ?>
+                >
                 <span class="radio-button__text">Повестка дня</span>
             </label>
 
             <label class="radio-button">
-                <input class="radio-button__input visually-hidden" type="radio" name="radio">
+                <input class="radio-button__input visually-hidden"
+                       type="radio"
+                       name="radio"
+                       value="tomorrow"
+                       <?php if(isset($_GET['show_tasks']) && $_GET['show_tasks'] === 'tomorrow'):?>checked<?php endif; ?>
+                >
                 <span class="radio-button__text">Завтра</span>
             </label>
 
             <label class="radio-button">
-                <input class="radio-button__input visually-hidden" type="radio" name="radio">
+                <input class="radio-button__input visually-hidden"
+                       type="radio"
+                       name="radio"
+                       value="overdue"
+                       <?php if(isset($_GET['show_tasks']) && $_GET['show_tasks'] === 'overdue'):?>checked<?php endif; ?>
+                >
                 <span class="radio-button__text">Просроченные</span>
             </label>
         </div>
