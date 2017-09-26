@@ -20,8 +20,13 @@ if (isset($_SESSION['user'])) {
 
 
     // Complete task
-    if (isset($_GET['complete_task'])) {
-        execQuery($link, 'UPDATE tasks SET completed_on = NOW() WHERE id = ?', [$_GET['complete_task']]);
+    if (isset($_GET['complete_task']) && isset($_GET['task_id'])) {
+        if((int)$_GET['complete_task'] === 1) {
+            execQuery($link, 'UPDATE tasks SET completed_on = NOW() WHERE id = ?', [$_GET['task_id']]);
+        } else if((int)$_GET['complete_task'] === 0) {
+            execQuery($link, 'UPDATE tasks SET completed_on = NULL WHERE id = ?', [$_GET['task_id']]);
+        }
+
         header('Location: /');
     }
 
@@ -46,5 +51,13 @@ if (isset($_SESSION['user'])) {
         }
 
         $tasks = fetchData($link, "SELECT id, name, deadline, project_id, completed_on from tasks WHERE created_by = ? && is_deleted = ? && $deadline $showAll", [$userId, 0]);
+    }
+
+
+    // Search tasks by name
+    if (isset($_GET['q'])) {
+        $query = '%'.parseUserInput($_GET['q']).'%';
+
+        $tasks = fetchData($link, "SELECT id, name, deadline, project_id, completed_on from tasks WHERE created_by = ? && is_deleted = ? && name LIKE ? $showAll", [$userId, 0, $query]);
     }
 }

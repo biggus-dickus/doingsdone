@@ -4,6 +4,24 @@ function formatDate($date) {
 
     return $f_date;
 }
+
+$q = (isset($_GET['q'])) ? parseUserInput($_GET['q']) : null;
+$punctuation = (count($data['tasks']) === 0) ? '.' : ':';
+
+$queryLength = count($data['tasks']);
+
+switch ($queryLength) {
+    case 1:
+        $res = 'результат';
+        break;
+    case 2:
+    case 3:
+    case 4:
+        $res = 'результата';
+        break;
+    default:
+        $res = 'результатов';
+}
 ?>
 
 
@@ -11,9 +29,7 @@ function formatDate($date) {
     <h2 class="content__main-heading">Список задач</h2>
 
     <form class="search-form" action="index.php" method="get">
-        <input type="hidden" name="form_name" value="search_form">
-        <input class="search-form__input" name="search_query" placeholder="Поиск по задачам">
-
+        <input class="search-form__input" name="q" placeholder="Поиск по задачам">
         <input class="search-form__submit" type="submit" value="Искать">
     </form>
 
@@ -62,7 +78,7 @@ function formatDate($date) {
         </div>
 
         <label class="checkbox">
-            <input id="show-complete-tasks"
+            <input id="show-completed-tasks"
                    class="checkbox__input visually-hidden"
                    type="checkbox"
                    <?php if($data['showCompleted']):?>checked<?php endif; ?>
@@ -70,6 +86,12 @@ function formatDate($date) {
             <span class="checkbox__text">Показывать выполненные</span>
         </label>
     </div>
+
+    <?php if(isset($_GET['q'])): ?>
+        <p>
+            По запросу <i>&laquo;<?=$q?>&raquo;</i> найдено <?=count($data['tasks']) .'&nbsp;'.$res.$punctuation?>
+        </p>
+    <?php endif;?>
 
     <table class="tasks">
         <?php foreach ($data['tasks'] as $task): ?>
@@ -84,9 +106,10 @@ function formatDate($date) {
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
                             <input
-                                    class="checkbox__input visually-hidden"
+                                    class="checkbox__input visually-hidden js-completion-toggler"
+                                    data-task-id="<?=$task['id']?>"
                                     type="checkbox"
-                                    <?php if($task['completed_on']):?>checked disabled<?php endif; ?>>
+                                    <?php if($task['completed_on']):?>checked<?php endif; ?>>
                             <span class="checkbox__text"><?= htmlspecialchars($task['name']) ?></span>
                         </label>
                     <td class="task__date">
@@ -99,9 +122,15 @@ function formatDate($date) {
                         <button class="expand-control" type="button" name="button">Дополнительные действия</button>
                         <ul class="expand-list hidden">
                             <li class="expand-list__item">
-                                <a href="?complete_task=<?=$task['id']?>">
-                                    Выполнить
-                                </a>
+                                <?php if($task['completed_on']): ?>
+                                    <a href="?complete_task=0&task_id=<?=$task['id']?>">
+                                        Отметить как невыполненную
+                                    </a>
+                                <?php else: ?>
+                                    <a href="?complete_task=1&task_id=<?=$task['id']?>">
+                                        Выполнить
+                                    </a>
+                                <?php endif; ?>
                             </li>
                             <li class="expand-list__item">
                                 <a href="?delete_task=<?=$task['id']?>">
