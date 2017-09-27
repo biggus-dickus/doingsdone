@@ -3,7 +3,6 @@
 $email = $_POST['email'] ?? '';
 
 // Error messages
-$errorEmail = $data['errors']['email'] ?? '';
 $errorPassword = $data['errors']['password'] ?? '';
 ?>
 
@@ -21,7 +20,7 @@ $errorPassword = $data['errors']['password'] ?? '';
 
         <div class="form__row">
             <label class="form__label" for="email">E-mail <sup>*</sup></label>
-            <input class="form__input <?php if($errorEmail):?>form__input--error<?php endif; ?>"
+            <input class="form__input <?php if($errorPassword):?>form__input--error<?php endif; ?>"
                    type="email"
                    name="email"
                    id="email"
@@ -29,7 +28,6 @@ $errorPassword = $data['errors']['password'] ?? '';
                    placeholder="Введите e-mail"
                    value="<?=$email?>"
                    autofocus>
-            <p class="error-message"><?=$errorEmail?></p>
         </div>
 
         <div class="form__row">

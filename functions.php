@@ -40,16 +40,71 @@ function getTasksAmount($tasksArr, $cat) {
 
 
 /**
- * Checks the form for empty fields.
+ * Checks the form for empty fields and performs all required validation.
  * @param array $requiredFields
+ * @param array $usersArr
  * @return array
  */
-function checkForEmptyFields($requiredFields) {
+function validateForm($requiredFields, $usersArr) {
     $errMessages = [];
+    $mustNotBeEmpty = array_filter($requiredFields, function($item) {
+        return $item !== 'deadline';
+    });
 
     foreach ($_POST as $key => $value) {
-        if (in_array($key, $requiredFields) && $value === '') {
+        if (in_array($key, $mustNotBeEmpty) && $value === '') {
             $errMessages[$key] = 'Заполните это поле.';
+        }
+
+        if ($key === 'deadline') {
+            $deadline = $value;
+
+            if(!empty($deadline)) {
+                if (!validateDate($deadline)) {
+                    $errMessages[$key] = 'Введите дату в формате ДД.ММ.ГГГГ.';
+                    break;
+                }
+
+                if (validateDate($deadline) && isOverdue($deadline)) {
+                    $errMessages[$key] = 'Дата выполнения задачи должна быть больше текущей даты.';
+                    break;
+                }
+            }
+        }
+
+        if ($key === 'password' && $_POST['form_name'] === 'sign_in') {
+            $password = $value;
+            $errMessages[$key] = 'Неверный электронный адрес или пароль. Попробуйте еще раз.';
+
+            if (!empty($password) && $user = searchUserByEmail($_POST['email'], $usersArr)) {
+                if (password_verify($password, $user['password'])) {
+                    $errMessages = [];
+                }
+            }
+
+            break;
+        }
+
+        if ($key === 'password' && $_POST['form_name'] === 'sign_up') {
+            $password = $value;
+
+            if (!empty($password) && strlen($password) < 8 ||
+                !empty($password) && !preg_match('#[0-9]+#', $password) ||
+                !empty($password) && !preg_match('#[a-zA-Z]+#', $password)) {
+                $errMessages[$key] = 'Надежный пароль должен состоять из не менее 8 символов, содержать как минимум одну букву и одну цифру.';
+            }
+        }
+
+        if ($key === 'email' && $_POST['form_name'] === 'sign_up') {
+            $email = $value;
+
+            if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errMessages[$key] = 'Введите корректный email: например, test@test.com.';
+            }
+
+            if (!empty($email) && searchUserByEmail($email, $usersArr)) {
+                $errMessages[$key] = 'Пользователь с таким электронным адресом уже зарегистрирован.';
+            }
         }
     }
 
@@ -64,9 +119,9 @@ function checkForEmptyFields($requiredFields) {
  * @return bool
  */
 function validateDate($date, $format = 'd.m.Y') {
-    $d = DateTime::createFromFormat($format, $date);
+    $correctDate = DateTime::createFromFormat($format, $date);
 
-    return $d && $d->format($format) == $date;
+    return $correctDate && $correctDate->format($format) === $date;
 }
 
 
@@ -162,6 +217,11 @@ function insertData($link, $table, $data) {
 
     if ($stmt && mysqli_stmt_execute($stmt)) {
         $result = mysqli_insert_id($link);
+    }
+
+    if(!$result) {
+        print renderTemplate('templates/error.php', ['error' => mysqli_error($link)]);
+        exit;
     }
 
     return $result;

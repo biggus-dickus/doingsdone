@@ -5,7 +5,7 @@ function formatDate($date) {
     return $f_date;
 }
 
-$q = (isset($_GET['q'])) ? parseUserInput($_GET['q']) : null;
+$query = (isset($_GET['q'])) ? parseUserInput($_GET['q']) : null;
 $punctuation = (count($data['tasks']) === 0) ? '.' : ':';
 
 $queryLength = count($data['tasks']);
@@ -89,7 +89,7 @@ switch ($queryLength) {
 
     <?php if(isset($_GET['q'])): ?>
         <p>
-            По запросу <i>&laquo;<?=$q?>&raquo;</i> найдено <?=count($data['tasks']) .'&nbsp;'.$res.$punctuation?>
+            По запросу <i>&laquo;<?=$query?>&raquo;</i> найдено <?=count($data['tasks']) .'&nbsp;'.$res.$punctuation?>
         </p>
     <?php endif;?>
 
