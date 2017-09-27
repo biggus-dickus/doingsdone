@@ -39,19 +39,16 @@ $errorTaskDeadline = $data['errors']['deadline'] ?? '';
         </div>
 
         <div class="form__row">
-            <label class="form__label" for="project">Проект <sup>*</sup></label>
+            <label class="form__label" for="project">Проект</label>
 
             <select class="form__input form__input--select" name="project" id="project">
+                <option disabled selected value="">Выберите проект</option>
                 <?php foreach($projects as $project):?>
                     <option <?php if($taskProject === $project): ?>selected<?php endif; ?>>
                         <?=$project?>
                     </option>
                 <?php endforeach; ?>
             </select>
-
-            <?php if(count($projects) < 1): ?>
-                <p class="error-message">Нельзя добавлять задачи, не&nbsp;создав предварительно хотя бы&nbsp;одного проекта.</p>
-            <?php endif; ?>
         </div>
 
         <div class="form__row">
@@ -81,8 +78,7 @@ $errorTaskDeadline = $data['errors']['deadline'] ?? '';
         </div>
 
         <div class="form__row form__row--controls">
-            <input class="button" type="submit" value="Добавить"
-                   <?php if(count($projects) < 1): ?>disabled<?php endif; ?>>
+            <input class="button" type="submit" value="Добавить">
         </div>
     </form>
 </div>

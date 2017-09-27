@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $deadline = $_POST['deadline'] ?? '';
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
+    $project = $_POST['project'] ?? '';
 
     $formName = $_POST['form_name'];
 
@@ -53,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $taskName = parseUserInput($taskName);
 
                 insertData($link, 'tasks', [
-                    'project_id' => array_search($_POST['project'], $projects),
+                    'project_id' => ($project) ? array_search($project, $projects) : 1,
                     'name' => $taskName,
                     'created_by' => $userId,
                     'created_on' => date('Y-m-d H:i:s'),
@@ -101,6 +102,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'email' => $email,
                     'name' => $username,
                     'password' => password_hash($password, PASSWORD_DEFAULT)
+                ]);
+
+                insertData($link, 'projects', [
+                    'name' => 'Входящие',
+                    'created_by' => mysqli_insert_id($link)
                 ]);
 
                 header('Location: /?sign_in&registration_success');

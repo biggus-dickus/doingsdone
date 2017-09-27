@@ -31,7 +31,7 @@ CREATE TABLE tasks (
 
 CREATE TABLE projects (
   id            INT AUTO_INCREMENT PRIMARY KEY,
-  name          CHAR(128) NOT NULL UNIQUE,
+  name          CHAR(128) NOT NULL,
   created_by    INT,
   is_deleted    TINYINT(1) DEFAULT 0
 );
