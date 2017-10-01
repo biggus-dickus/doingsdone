@@ -579,7 +579,16 @@ a:focus {
 }
 
 .task__file {
-  width: 190px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 35px;
+  width: 14px;
+  height: 16px;
+  margin-top: auto;
+  margin-bottom: auto;
+  text-indent: -999em;
+  background: url("../img/download-link.png") 0 0 no-repeat;
 }
 
 .task__date {

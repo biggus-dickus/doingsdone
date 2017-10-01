@@ -112,6 +112,17 @@ switch ($queryLength) {
                                     <?php if($task['completed_on']):?>checked<?php endif; ?>>
                             <span class="checkbox__text"><?= htmlspecialchars($task['name']) ?></span>
                         </label>
+
+                        <?php if($task['attachment_URL']):?>
+                            <a href="<?=$task['attachment_URL']?>"
+                               class="task__file"
+                               target="_blank"
+                               title="Загрузить вложение">
+                                Загрузить вложение
+                            </a>
+                        <?php endif; ?>
+                    </td>
+
                     <td class="task__date">
                         <time datetime="<?=$task['deadline']?>">
                             <?= formatDate($task['deadline']); ?>

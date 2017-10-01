@@ -3,7 +3,7 @@
 $showAll = (isset($_COOKIE['show_completed']) && $_COOKIE['show_completed']) ? '' : '&& completed_on IS NULL';
 
 if (isset($_SESSION['user'])) {
-    $tasks = fetchData($link, "SELECT id, name, deadline, project_id, completed_on from tasks WHERE created_by = ? && is_deleted = ? $showAll ORDER BY created_on DESC", [$userId, 0]);
+    $tasks = fetchData($link, "SELECT id, name, deadline, project_id, completed_on, attachment_URL from tasks WHERE created_by = ? && is_deleted = ? $showAll ORDER BY created_on DESC", [$userId, 0]);
 
     $dbProjects = fetchData($link, 'SELECT name from projects WHERE created_by = ?', [$userId]);
 
@@ -50,7 +50,7 @@ if (isset($_SESSION['user'])) {
                 break;
         }
 
-        $tasks = fetchData($link, "SELECT id, name, deadline, project_id, completed_on from tasks WHERE created_by = ? && is_deleted = ? && $deadline $showAll", [$userId, 0]);
+        $tasks = fetchData($link, "SELECT id, name, deadline, project_id, completed_on, attachment_URL from tasks WHERE created_by = ? && is_deleted = ? && $deadline $showAll", [$userId, 0]);
     }
 
 

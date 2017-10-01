@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'add_task':
                 if (isset($_FILES['task-attachment'])) {
                     $file_name = $_FILES['task-attachment']['name'];
-                    $file_path = __DIR__ . '/';
+                    $file_path = __DIR__ . '/uploads/';
 
                     move_uploaded_file($_FILES['task-attachment']['tmp_name'], $file_path . $file_name);
                 }
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'created_by' => $userId,
                     'created_on' => date('Y-m-d H:i:s'),
                     'deadline' => date('Y-m-d H:i:s', strtotime($_POST['deadline'])),
-                    'attachment_url' => (isset($_FILES['task-attachment'])) ? __DIR__ . '/' . $_FILES['task-attachment']['name'] : null
+                    'attachment_url' => ($_FILES['task-attachment']['name'] !== '') ? '/uploads/' . $_FILES['task-attachment']['name'] : ''
                 ]);
 
                 header('Location: /');
