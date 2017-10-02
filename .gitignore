@@ -3,4 +3,5 @@
 composer.phar
 Thumbs.db
 vendor
-uploads
+uploads/*
+!uploads/.gitkeep
